@@ -1,0 +1,41 @@
+rules_version = '2';
+
+// Firebase Storage rules for HairConsultant. Deploy: `firebase deploy --only storage`.
+//  - users/{uid}/...     consultation photos + try-on results uploaded by the app (owner writes,
+//                        owner and admins read).
+//  - haircuts/{id}/...   catalog thumbnails and AR assets (.deepar / .glb) uploaded from the
+//                        admin dashboard. Names carry a version (thumb-<n>.png, effect-<n>.deepar,
+//                        model-<n>.glb) so every upload gets a fresh URL and no client caches a stale file.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAdmin() {
+      return request.auth != null && request.auth.token.get('admin', false) == true;
+    }
+
+    match /users/{userId}/{allPaths=**} {
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow create, update: if request.auth != null && request.auth.uid == userId
+        && request.resource.size < 20 * 1024 * 1024;
+      allow delete: if request.auth != null && (request.auth.uid == userId || isAdmin());
+    }
+
+    match /haircuts/{haircutId}/{fileName} {
+      allow read: if request.auth != null;
+      allow delete: if isAdmin();
+      // Thumbnails: images up to 3 MB.
+      allow create, update: if isAdmin()
+        && fileName.matches('thumb-[0-9]+\\.(png|jpg|jpeg|webp)')
+        && request.resource.contentType.matches('image/.*')
+        && request.resource.size < 3 * 1024 * 1024;
+      // AR assets: DeepAR effects or GLB models up to 40 MB.
+      allow create, update: if isAdmin()
+        && fileName.matches('(effect-[0-9]+\\.deepar|model-[0-9]+\\.glb)')
+        && request.resource.size < 40 * 1024 * 1024;
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

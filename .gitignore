@@ -1,0 +1,15 @@
+node_modules/
+*.log
+.firebase/
+firebase-debug*.log
+firestore-debug.log
+storage-debug.log
+ui-debug.log
+# Functions build output and local secrets
+functions/lib/
+functions/.env.local
+functions/.secret.local
+# Next.js
+web/.next/
+web/out/
+web/.env.local
