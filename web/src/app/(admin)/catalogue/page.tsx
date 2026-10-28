@@ -6,6 +6,7 @@ import { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/admin-shell";
 import { filterOptions, OptionSelect } from "@/components/filter-select";
+import { FaceShapeTag } from "@/components/common";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -92,7 +93,7 @@ function SetupCard({ haircuts }: { haircuts: Haircut[] }) {
   };
 
   return (
-    <Card className="mb-6 border-dashed">
+    <Card className="mb-6">
       <CardHeader>
         <CardTitle>Finish catalogue setup</CardTitle>
         <CardDescription>
@@ -224,7 +225,7 @@ export default function CataloguePage() {
               <TableHead className="hidden sm:table-cell">Try-on</TableHead>
               <TableHead className="hidden sm:table-cell text-right">Order</TableHead>
               <TableHead>Visible</TableHead>
-              <TableHead className="w-12" />
+              <TableHead className="hidden w-12 sm:table-cell" />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -246,7 +247,7 @@ export default function CataloguePage() {
               </TableRow>
             )}
             {filtered.map((h) => (
-              <TableRow key={h.id} className={h.isActive === false ? "opacity-60" : undefined}>
+              <TableRow key={h.id} className={h.isActive === false ? "[&_img]:opacity-50 [&_img]:grayscale" : undefined}>
                 <TableCell>
                   <Thumb haircut={h} />
                 </TableCell>
@@ -254,6 +255,11 @@ export default function CataloguePage() {
                   <Link href={`/catalogue/edit?id=${encodeURIComponent(h.id)}`} className="font-medium hover:underline">
                     {h.name}
                   </Link>
+                  {h.isActive === false && (
+                    <Badge variant="attention" className="ml-2 align-middle">
+                      Hidden
+                    </Badge>
+                  )}
                   <div className="font-mono text-xs text-muted-foreground">{h.id}</div>
                   <div className="text-xs text-muted-foreground md:hidden">
                     {label(h.length)} · {label(h.texture)}
@@ -264,11 +270,9 @@ export default function CataloguePage() {
                   <div className="text-xs text-muted-foreground">{label(h.genderStyle)}</div>
                 </TableCell>
                 <TableCell className="hidden lg:table-cell">
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-x-3 gap-y-1">
                     {(h.recommendedFaceShapes ?? []).map((shape) => (
-                      <Badge key={shape} variant="outline">
-                        {label(shape)}
-                      </Badge>
+                      <FaceShapeTag key={shape} shape={shape} label={label(shape)} />
                     ))}
                   </div>
                 </TableCell>
@@ -284,7 +288,7 @@ export default function CataloguePage() {
                     aria-label={`Show ${h.name} in the app`}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell className="hidden sm:table-cell">
                   <Link
                     href={`/catalogue/edit?id=${encodeURIComponent(h.id)}`}
                     className={buttonVariants({ variant: "ghost", size: "icon-sm" })}

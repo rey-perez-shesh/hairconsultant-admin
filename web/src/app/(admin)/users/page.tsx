@@ -116,7 +116,7 @@ export default function UsersPage() {
                 <TableCell className="hidden sm:table-cell">{formatDate(u.createdAtEpochMillis)}</TableCell>
                 <TableCell className="hidden sm:table-cell">{formatDate(u.lastActiveAtEpochMillis)}</TableCell>
                 <TableCell>
-                  {u.disabled ? <Badge variant="destructive">Disabled</Badge> : <Badge variant="secondary">Active</Badge>}
+                  {u.disabled ? <Badge variant="attention">Disabled</Badge> : <Badge variant="secondary">Active</Badge>}
                 </TableCell>
                 <TableCell>
                   <ChevronRight className="size-4 text-muted-foreground" />

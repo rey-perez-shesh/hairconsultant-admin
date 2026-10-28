@@ -7,6 +7,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -33,6 +34,8 @@ function useChartTokens() {
       grid: read("--chart-grid", "#e5e5e5"),
       text: read("--muted-foreground", "#737373"),
       surface: read("--card", "#ffffff"),
+      highlight: read("--highlight", "#f08a3c"),
+      read,
       theme: resolvedTheme,
     };
   }, [resolvedTheme]);
@@ -102,7 +105,7 @@ export function ChartCard({
       </CardHeader>
       <CardContent>
         {empty ? (
-          <p className="py-10 text-center text-sm text-muted-foreground">{emptyText}</p>
+          <p className="py-6 text-center text-sm text-muted-foreground">{emptyText}</p>
         ) : asTable ? (
           <div className="max-h-72 overflow-auto">
             <Table>
@@ -130,15 +133,18 @@ export function ChartCard({
   );
 }
 
-/** Horizontal bars for a magnitude per category (one series, one hue). */
+/** Horizontal bars for a magnitude per category: one hue, or a fixed ink per category via [inkFor]. */
 export function HorizontalBars({
   data,
   valueLabel,
   format = formatNumber,
+  inkFor,
 }: {
   data: Datum[];
   valueLabel: string;
   format?: (value: number) => string;
+  /** CSS custom property name for a category's ink, e.g. "--face-oval". */
+  inkFor?: (label: string) => string;
 }) {
   const t = useChartTokens();
   const height = Math.max(120, data.length * 34 + 24);
@@ -168,15 +174,17 @@ export function HorizontalBars({
             radius={[0, 4, 4, 0]}
             maxBarSize={22}
             label={{ position: "right", fill: t.text, fontSize: 12, formatter: (v: unknown) => format(Number(v)) }}
-          />
+          >
+            {inkFor && data.map((d) => <Cell key={d.label} fill={t.read(inkFor(d.label), t.series)} />)}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>
   );
 }
 
-/** One measure over days (x = day label), with a crosshair tooltip. */
-export function TimeSeries({
+/** Daily counts as bars, oldest first; today's bar (the last one) is set in the highlight orange. */
+export function DailyBars({
   data,
   valueLabel,
   format = formatNumber,
@@ -191,6 +199,41 @@ export function TimeSeries({
   return (
     <div style={{ height }}>
       <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 8, right: 4, bottom: 0, left: -12 }} barCategoryGap="18%">
+          <CartesianGrid vertical={false} stroke={t.grid} />
+          <XAxis dataKey="label" tickLine={false} axisLine={{ stroke: t.text }} tick={{ fill: t.text, fontSize: 12 }} minTickGap={24} />
+          <YAxis tickLine={false} axisLine={false} tick={{ fill: t.text, fontSize: 12 }} allowDecimals={false} />
+          <Tooltip cursor={{ fill: t.grid, opacity: 0.6 }} content={<ChartTooltip valueLabel={valueLabel} format={format} />} />
+          <Bar dataKey="value" isAnimationActive={false} fill={t.series} radius={[4, 4, 0, 0]}>
+            {data.map((d, i) => (
+              <Cell key={d.label} fill={i === data.length - 1 ? t.highlight : t.series} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+/** One measure over days (x = day label), with a crosshair tooltip. */
+export function TimeSeries({
+  data,
+  valueLabel,
+  format = formatNumber,
+  height = 240,
+  domain,
+}: {
+  data: Datum[];
+  valueLabel: string;
+  format?: (value: number) => string;
+  height?: number;
+  /** Fixed y range for bounded measures, e.g. [0, 5] for star ratings. */
+  domain?: [number, number];
+}) {
+  const t = useChartTokens();
+  return (
+    <div style={{ height }}>
+      <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: -12 }}>
           <CartesianGrid vertical={false} stroke={t.grid} />
           <XAxis
@@ -200,7 +243,11 @@ export function TimeSeries({
             tick={{ fill: t.text, fontSize: 12 }}
             minTickGap={24}
           />
-          <YAxis tickLine={false} axisLine={false} tick={{ fill: t.text, fontSize: 12 }} allowDecimals={false} />
+          <YAxis tickLine={false} axisLine={false} tick={{ fill: t.text, fontSize: 12 }} allowDecimals={false}
+            domain={domain}
+            // Even whole-number ticks across a fixed range (0, 1, 2 … 5) instead of Recharts' uneven picks.
+            ticks={domain && Array.from({ length: domain[1] - domain[0] + 1 }, (_, i) => domain[0] + i)}
+          />
           <Tooltip
             cursor={{ stroke: t.text, strokeDasharray: "3 3" }}
             content={<ChartTooltip valueLabel={valueLabel} format={format} />}
@@ -211,7 +258,14 @@ export function TimeSeries({
             dataKey="value"
             stroke={t.series}
             strokeWidth={2}
-            dot={false}
+            // Only today's entry gets a mark, in the highlight orange.
+            dot={(props: { cx?: number; cy?: number; index?: number }) =>
+              props.index === data.length - 1 && props.cx !== undefined && props.cy !== undefined ? (
+                <circle key="today" cx={props.cx} cy={props.cy} r={4} fill={t.highlight} stroke={t.surface} strokeWidth={2} />
+              ) : (
+                <g key={props.index} />
+              )
+            }
             activeDot={{ r: 4, stroke: t.surface, strokeWidth: 2 }}
             connectNulls
           />
@@ -221,29 +275,21 @@ export function TimeSeries({
   );
 }
 
-/** Headline number tile (no plot). */
-export function StatTile({
-  label,
-  value,
-  hint,
-  icon: Icon,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-  icon?: React.ComponentType<{ className?: string }>;
-}) {
+/** Rounded strip that holds StatTiles as cells divided by hairlines. */
+export const FIGURE_STRIP = "grid gap-px overflow-hidden rounded-xl bg-border shadow-(--card-shadow)";
+
+/** Headline figure, set in a fixed cell of a FIGURE_STRIP. */
+export function StatTile({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
-    <Card size="sm">
-      <CardContent>
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
-          {label}
-          {Icon && <Icon className="size-4" />}
+    <div className="min-w-0 bg-card px-5 py-4">
+      <div className="truncate text-sm text-muted-foreground">{label}</div>
+      <div className="mt-1.5 text-2xl leading-tight font-semibold tracking-tight tabular-nums">{value}</div>
+      {hint && (
+        <div className="mt-1.5 text-xs text-muted-foreground">
+          {hint}
         </div>
-        <div className="mt-1 text-2xl font-semibold tabular-nums">{value}</div>
-        {hint && <div className="mt-0.5 text-xs text-muted-foreground">{hint}</div>}
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 }
 

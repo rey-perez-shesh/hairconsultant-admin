@@ -1,0 +1,843 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-28T12:52:11.239Z",
+  "title": "Design System: HairConsultant Admin",
+  "extensions": {
+    "colorMeta": {
+      "system-indigo": {
+        "role": "primary",
+        "displayName": "System Indigo",
+        "canonical": "#5856d6",
+        "tonalRamp": [
+          "oklch(0.15 0.191 278)",
+          "oklch(0.26 0.191 278)",
+          "oklch(0.37 0.191 278)",
+          "oklch(0.48 0.191 278)",
+          "oklch(0.6 0.191 278)",
+          "oklch(0.72 0.191 278)",
+          "oklch(0.84 0.191 278)",
+          "oklch(0.95 0.067 278)"
+        ]
+      },
+      "on-indigo": {
+        "role": "primary",
+        "displayName": "On Indigo",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(0.15 0.000 0)",
+          "oklch(0.26 0.000 0)",
+          "oklch(0.37 0.000 0)",
+          "oklch(0.48 0.000 0)",
+          "oklch(0.6 0.000 0)",
+          "oklch(0.72 0.000 0)",
+          "oklch(0.84 0.000 0)",
+          "oklch(0.95 0.000 0)"
+        ]
+      },
+      "indigo-tint": {
+        "role": "primary",
+        "displayName": "Indigo Tint",
+        "canonical": "rgb(88 86 214 / 0.1)",
+        "tonalRamp": [
+          "oklch(0.15 0.191 278)",
+          "oklch(0.26 0.191 278)",
+          "oklch(0.37 0.191 278)",
+          "oklch(0.48 0.191 278)",
+          "oklch(0.6 0.191 278)",
+          "oklch(0.72 0.191 278)",
+          "oklch(0.84 0.191 278)",
+          "oklch(0.95 0.067 278)"
+        ]
+      },
+      "indigo-ink": {
+        "role": "primary",
+        "displayName": "Indigo Ink",
+        "canonical": "#4b49c4",
+        "tonalRamp": [
+          "oklch(0.15 0.186 278)",
+          "oklch(0.26 0.186 278)",
+          "oklch(0.37 0.186 278)",
+          "oklch(0.48 0.186 278)",
+          "oklch(0.6 0.186 278)",
+          "oklch(0.72 0.186 278)",
+          "oklch(0.84 0.186 278)",
+          "oklch(0.95 0.065 278)"
+        ]
+      },
+      "focus-indigo": {
+        "role": "primary",
+        "displayName": "Focus Indigo",
+        "canonical": "rgb(88 86 214 / 0.45)",
+        "tonalRamp": [
+          "oklch(0.15 0.191 278)",
+          "oklch(0.26 0.191 278)",
+          "oklch(0.37 0.191 278)",
+          "oklch(0.48 0.191 278)",
+          "oklch(0.6 0.191 278)",
+          "oklch(0.72 0.191 278)",
+          "oklch(0.84 0.191 278)",
+          "oklch(0.95 0.067 278)"
+        ]
+      },
+      "system-orange": {
+        "role": "secondary",
+        "displayName": "System Orange",
+        "canonical": "#ff9500",
+        "tonalRamp": [
+          "oklch(0.15 0.175 63)",
+          "oklch(0.26 0.175 63)",
+          "oklch(0.37 0.175 63)",
+          "oklch(0.48 0.175 63)",
+          "oklch(0.6 0.175 63)",
+          "oklch(0.72 0.175 63)",
+          "oklch(0.84 0.175 63)",
+          "oklch(0.95 0.061 63)"
+        ]
+      },
+      "orange-tint": {
+        "role": "secondary",
+        "displayName": "Orange Tint",
+        "canonical": "rgb(255 149 0 / 0.14)",
+        "tonalRamp": [
+          "oklch(0.15 0.175 63)",
+          "oklch(0.26 0.175 63)",
+          "oklch(0.37 0.175 63)",
+          "oklch(0.48 0.175 63)",
+          "oklch(0.6 0.175 63)",
+          "oklch(0.72 0.175 63)",
+          "oklch(0.84 0.175 63)",
+          "oklch(0.95 0.061 63)"
+        ]
+      },
+      "orange-ink": {
+        "role": "secondary",
+        "displayName": "Orange Ink",
+        "canonical": "#c45f00",
+        "tonalRamp": [
+          "oklch(0.15 0.154 52)",
+          "oklch(0.26 0.154 52)",
+          "oklch(0.37 0.154 52)",
+          "oklch(0.48 0.154 52)",
+          "oklch(0.6 0.154 52)",
+          "oklch(0.72 0.154 52)",
+          "oklch(0.84 0.154 52)",
+          "oklch(0.95 0.054 52)"
+        ]
+      },
+      "system-green": {
+        "role": "tertiary",
+        "displayName": "System Green",
+        "canonical": "#34c759",
+        "tonalRamp": [
+          "oklch(0.15 0.194 147)",
+          "oklch(0.26 0.194 147)",
+          "oklch(0.37 0.194 147)",
+          "oklch(0.48 0.194 147)",
+          "oklch(0.6 0.194 147)",
+          "oklch(0.72 0.194 147)",
+          "oklch(0.84 0.194 147)",
+          "oklch(0.95 0.068 147)"
+        ]
+      },
+      "system-red": {
+        "role": "error",
+        "displayName": "System Red",
+        "canonical": "#ff3b30",
+        "tonalRamp": [
+          "oklch(0.15 0.232 29)",
+          "oklch(0.26 0.232 29)",
+          "oklch(0.37 0.232 29)",
+          "oklch(0.48 0.232 29)",
+          "oklch(0.6 0.232 29)",
+          "oklch(0.72 0.232 29)",
+          "oklch(0.84 0.232 29)",
+          "oklch(0.95 0.081 29)"
+        ]
+      },
+      "grouped-ground": {
+        "role": "neutral",
+        "displayName": "Grouped Ground",
+        "canonical": "#e9e9ef",
+        "tonalRamp": [
+          "oklch(0.15 0.007 286)",
+          "oklch(0.26 0.007 286)",
+          "oklch(0.37 0.007 286)",
+          "oklch(0.48 0.007 286)",
+          "oklch(0.6 0.007 286)",
+          "oklch(0.72 0.007 286)",
+          "oklch(0.84 0.007 286)",
+          "oklch(0.95 0.002 286)"
+        ]
+      },
+      "group-white": {
+        "role": "neutral",
+        "displayName": "Group White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(0.15 0.000 0)",
+          "oklch(0.26 0.000 0)",
+          "oklch(0.37 0.000 0)",
+          "oklch(0.48 0.000 0)",
+          "oklch(0.6 0.000 0)",
+          "oklch(0.72 0.000 0)",
+          "oklch(0.84 0.000 0)",
+          "oklch(0.95 0.000 0)"
+        ]
+      },
+      "label": {
+        "role": "neutral",
+        "displayName": "Label",
+        "canonical": "#1d1d1f",
+        "tonalRamp": [
+          "oklch(0.15 0.004 286)",
+          "oklch(0.26 0.004 286)",
+          "oklch(0.37 0.004 286)",
+          "oklch(0.48 0.004 286)",
+          "oklch(0.6 0.004 286)",
+          "oklch(0.72 0.004 286)",
+          "oklch(0.84 0.004 286)",
+          "oklch(0.95 0.001 286)"
+        ]
+      },
+      "secondary-label": {
+        "role": "neutral",
+        "displayName": "Secondary Label",
+        "canonical": "#636366",
+        "tonalRamp": [
+          "oklch(0.15 0.008 286)",
+          "oklch(0.26 0.008 286)",
+          "oklch(0.37 0.008 286)",
+          "oklch(0.48 0.008 286)",
+          "oklch(0.6 0.008 286)",
+          "oklch(0.72 0.008 286)",
+          "oklch(0.84 0.008 286)",
+          "oklch(0.95 0.003 286)"
+        ]
+      },
+      "gray-fill": {
+        "role": "neutral",
+        "displayName": "Gray Fill",
+        "canonical": "rgb(118 118 128 / 0.12)",
+        "tonalRamp": [
+          "oklch(0.15 0.015 286)",
+          "oklch(0.26 0.015 286)",
+          "oklch(0.37 0.015 286)",
+          "oklch(0.48 0.015 286)",
+          "oklch(0.6 0.015 286)",
+          "oklch(0.72 0.015 286)",
+          "oklch(0.84 0.015 286)",
+          "oklch(0.95 0.005 286)"
+        ]
+      },
+      "gray-fill-quiet": {
+        "role": "neutral",
+        "displayName": "Quiet Gray Fill",
+        "canonical": "rgb(118 118 128 / 0.08)",
+        "tonalRamp": [
+          "oklch(0.15 0.015 286)",
+          "oklch(0.26 0.015 286)",
+          "oklch(0.37 0.015 286)",
+          "oklch(0.48 0.015 286)",
+          "oklch(0.6 0.015 286)",
+          "oklch(0.72 0.015 286)",
+          "oklch(0.84 0.015 286)",
+          "oklch(0.95 0.005 286)"
+        ]
+      },
+      "separator": {
+        "role": "neutral",
+        "displayName": "Separator",
+        "canonical": "rgb(60 60 67 / 0.13)",
+        "tonalRamp": [
+          "oklch(0.15 0.012 286)",
+          "oklch(0.26 0.012 286)",
+          "oklch(0.37 0.012 286)",
+          "oklch(0.48 0.012 286)",
+          "oklch(0.6 0.012 286)",
+          "oklch(0.72 0.012 286)",
+          "oklch(0.84 0.012 286)",
+          "oklch(0.95 0.004 286)"
+        ]
+      },
+      "field-stroke": {
+        "role": "neutral",
+        "displayName": "Field Stroke",
+        "canonical": "rgb(60 60 67 / 0.18)",
+        "tonalRamp": [
+          "oklch(0.15 0.012 286)",
+          "oklch(0.26 0.012 286)",
+          "oklch(0.37 0.012 286)",
+          "oklch(0.48 0.012 286)",
+          "oklch(0.6 0.012 286)",
+          "oklch(0.72 0.012 286)",
+          "oklch(0.84 0.012 286)",
+          "oklch(0.95 0.004 286)"
+        ]
+      },
+      "chart-grid": {
+        "role": "neutral",
+        "displayName": "Chart Grid",
+        "canonical": "rgb(60 60 67 / 0.1)",
+        "tonalRamp": [
+          "oklch(0.15 0.012 286)",
+          "oklch(0.26 0.012 286)",
+          "oklch(0.37 0.012 286)",
+          "oklch(0.48 0.012 286)",
+          "oklch(0.6 0.012 286)",
+          "oklch(0.72 0.012 286)",
+          "oklch(0.84 0.012 286)",
+          "oklch(0.95 0.004 286)"
+        ]
+      },
+      "sidebar-vibrancy": {
+        "role": "neutral",
+        "displayName": "Sidebar Vibrancy",
+        "canonical": "rgb(246 246 249 / 0.72)",
+        "tonalRamp": [
+          "oklch(0.15 0.004 286)",
+          "oklch(0.26 0.004 286)",
+          "oklch(0.37 0.004 286)",
+          "oklch(0.48 0.004 286)",
+          "oklch(0.6 0.004 286)",
+          "oklch(0.72 0.004 286)",
+          "oklch(0.84 0.004 286)",
+          "oklch(0.95 0.001 286)"
+        ]
+      },
+      "face-oval": {
+        "role": "tertiary",
+        "displayName": "Oval (systemBlue)",
+        "canonical": "#007aff",
+        "tonalRamp": [
+          "oklch(0.15 0.218 257)",
+          "oklch(0.26 0.218 257)",
+          "oklch(0.37 0.218 257)",
+          "oklch(0.48 0.218 257)",
+          "oklch(0.6 0.218 257)",
+          "oklch(0.72 0.218 257)",
+          "oklch(0.84 0.218 257)",
+          "oklch(0.95 0.076 257)"
+        ]
+      },
+      "face-round": {
+        "role": "tertiary",
+        "displayName": "Round (systemBrown)",
+        "canonical": "#a2845e",
+        "tonalRamp": [
+          "oklch(0.15 0.064 73)",
+          "oklch(0.26 0.064 73)",
+          "oklch(0.37 0.064 73)",
+          "oklch(0.48 0.064 73)",
+          "oklch(0.6 0.064 73)",
+          "oklch(0.72 0.064 73)",
+          "oklch(0.84 0.064 73)",
+          "oklch(0.95 0.023 73)"
+        ]
+      },
+      "face-square": {
+        "role": "tertiary",
+        "displayName": "Square (teal)",
+        "canonical": "#30b0c7",
+        "tonalRamp": [
+          "oklch(0.15 0.111 213)",
+          "oklch(0.26 0.111 213)",
+          "oklch(0.37 0.111 213)",
+          "oklch(0.48 0.111 213)",
+          "oklch(0.6 0.111 213)",
+          "oklch(0.72 0.111 213)",
+          "oklch(0.84 0.111 213)",
+          "oklch(0.95 0.039 213)"
+        ]
+      },
+      "face-heart": {
+        "role": "tertiary",
+        "displayName": "Heart (systemPink)",
+        "canonical": "#ff2d55",
+        "tonalRamp": [
+          "oklch(0.15 0.238 18)",
+          "oklch(0.26 0.238 18)",
+          "oklch(0.37 0.238 18)",
+          "oklch(0.48 0.238 18)",
+          "oklch(0.6 0.238 18)",
+          "oklch(0.72 0.238 18)",
+          "oklch(0.84 0.238 18)",
+          "oklch(0.95 0.083 18)"
+        ]
+      },
+      "face-diamond": {
+        "role": "tertiary",
+        "displayName": "Diamond (systemGreen)",
+        "canonical": "#34c759",
+        "tonalRamp": [
+          "oklch(0.15 0.194 147)",
+          "oklch(0.26 0.194 147)",
+          "oklch(0.37 0.194 147)",
+          "oklch(0.48 0.194 147)",
+          "oklch(0.6 0.194 147)",
+          "oklch(0.72 0.194 147)",
+          "oklch(0.84 0.194 147)",
+          "oklch(0.95 0.068 147)"
+        ]
+      },
+      "dark-ground": {
+        "role": "neutral",
+        "displayName": "Dark Ground",
+        "canonical": "#000000",
+        "tonalRamp": [
+          "oklch(0.15 0.000 0)",
+          "oklch(0.26 0.000 0)",
+          "oklch(0.37 0.000 0)",
+          "oklch(0.48 0.000 0)",
+          "oklch(0.6 0.000 0)",
+          "oklch(0.72 0.000 0)",
+          "oklch(0.84 0.000 0)",
+          "oklch(0.95 0.000 0)"
+        ]
+      },
+      "dark-group": {
+        "role": "neutral",
+        "displayName": "Dark Group",
+        "canonical": "#1c1c1e",
+        "tonalRamp": [
+          "oklch(0.15 0.004 286)",
+          "oklch(0.26 0.004 286)",
+          "oklch(0.37 0.004 286)",
+          "oklch(0.48 0.004 286)",
+          "oklch(0.6 0.004 286)",
+          "oklch(0.72 0.004 286)",
+          "oklch(0.84 0.004 286)",
+          "oklch(0.95 0.001 286)"
+        ]
+      },
+      "dark-elevated": {
+        "role": "neutral",
+        "displayName": "Dark Elevated",
+        "canonical": "#2c2c2e",
+        "tonalRamp": [
+          "oklch(0.15 0.004 286)",
+          "oklch(0.26 0.004 286)",
+          "oklch(0.37 0.004 286)",
+          "oklch(0.48 0.004 286)",
+          "oklch(0.6 0.004 286)",
+          "oklch(0.72 0.004 286)",
+          "oklch(0.84 0.004 286)",
+          "oklch(0.95 0.001 286)"
+        ]
+      },
+      "dark-label": {
+        "role": "neutral",
+        "displayName": "Dark Label",
+        "canonical": "#f5f5f7",
+        "tonalRamp": [
+          "oklch(0.15 0.003 286)",
+          "oklch(0.26 0.003 286)",
+          "oklch(0.37 0.003 286)",
+          "oklch(0.48 0.003 286)",
+          "oklch(0.6 0.003 286)",
+          "oklch(0.72 0.003 286)",
+          "oklch(0.84 0.003 286)",
+          "oklch(0.95 0.001 286)"
+        ]
+      },
+      "dark-secondary-label": {
+        "role": "neutral",
+        "displayName": "Dark Secondary Label",
+        "canonical": "#98989d",
+        "tonalRamp": [
+          "oklch(0.15 0.007 286)",
+          "oklch(0.26 0.007 286)",
+          "oklch(0.37 0.007 286)",
+          "oklch(0.48 0.007 286)",
+          "oklch(0.6 0.007 286)",
+          "oklch(0.72 0.007 286)",
+          "oklch(0.84 0.007 286)",
+          "oklch(0.95 0.003 286)"
+        ]
+      },
+      "dark-indigo": {
+        "role": "primary",
+        "displayName": "Dark Indigo",
+        "canonical": "#5e5ce6",
+        "tonalRamp": [
+          "oklch(0.15 0.203 278)",
+          "oklch(0.26 0.203 278)",
+          "oklch(0.37 0.203 278)",
+          "oklch(0.48 0.203 278)",
+          "oklch(0.6 0.203 278)",
+          "oklch(0.72 0.203 278)",
+          "oklch(0.84 0.203 278)",
+          "oklch(0.95 0.071 278)"
+        ]
+      },
+      "dark-indigo-ink": {
+        "role": "primary",
+        "displayName": "Dark Indigo Ink",
+        "canonical": "#a5a4f5",
+        "tonalRamp": [
+          "oklch(0.15 0.116 284)",
+          "oklch(0.26 0.116 284)",
+          "oklch(0.37 0.116 284)",
+          "oklch(0.48 0.116 284)",
+          "oklch(0.6 0.116 284)",
+          "oklch(0.72 0.116 284)",
+          "oklch(0.84 0.116 284)",
+          "oklch(0.95 0.040 284)"
+        ]
+      },
+      "dark-orange": {
+        "role": "secondary",
+        "displayName": "Dark Orange",
+        "canonical": "#ff9f0a",
+        "tonalRamp": [
+          "oklch(0.15 0.171 67)",
+          "oklch(0.26 0.171 67)",
+          "oklch(0.37 0.171 67)",
+          "oklch(0.48 0.171 67)",
+          "oklch(0.6 0.171 67)",
+          "oklch(0.72 0.171 67)",
+          "oklch(0.84 0.171 67)",
+          "oklch(0.95 0.060 67)"
+        ]
+      },
+      "dark-orange-ink": {
+        "role": "secondary",
+        "displayName": "Dark Orange Ink",
+        "canonical": "#ffb340",
+        "tonalRamp": [
+          "oklch(0.15 0.152 73)",
+          "oklch(0.26 0.152 73)",
+          "oklch(0.37 0.152 73)",
+          "oklch(0.48 0.152 73)",
+          "oklch(0.6 0.152 73)",
+          "oklch(0.72 0.152 73)",
+          "oklch(0.84 0.152 73)",
+          "oklch(0.95 0.053 73)"
+        ]
+      },
+      "dark-green": {
+        "role": "tertiary",
+        "displayName": "Dark Green",
+        "canonical": "#30d158",
+        "tonalRamp": [
+          "oklch(0.15 0.208 147)",
+          "oklch(0.26 0.208 147)",
+          "oklch(0.37 0.208 147)",
+          "oklch(0.48 0.208 147)",
+          "oklch(0.6 0.208 147)",
+          "oklch(0.72 0.208 147)",
+          "oklch(0.84 0.208 147)",
+          "oklch(0.95 0.073 147)"
+        ]
+      },
+      "dark-red": {
+        "role": "error",
+        "displayName": "Dark Red",
+        "canonical": "#ff453a",
+        "tonalRamp": [
+          "oklch(0.15 0.224 28)",
+          "oklch(0.26 0.224 28)",
+          "oklch(0.37 0.224 28)",
+          "oklch(0.48 0.224 28)",
+          "oklch(0.6 0.224 28)",
+          "oklch(0.72 0.224 28)",
+          "oklch(0.84 0.224 28)",
+          "oklch(0.95 0.078 28)"
+        ]
+      },
+      "dark-separator": {
+        "role": "neutral",
+        "displayName": "Dark Separator",
+        "canonical": "rgb(84 84 88 / 0.6)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 286)",
+          "oklch(0.26 0.006 286)",
+          "oklch(0.37 0.006 286)",
+          "oklch(0.48 0.006 286)",
+          "oklch(0.6 0.006 286)",
+          "oklch(0.72 0.006 286)",
+          "oklch(0.84 0.006 286)",
+          "oklch(0.95 0.002 286)"
+        ]
+      },
+      "dark-sidebar-vibrancy": {
+        "role": "neutral",
+        "displayName": "Dark Sidebar Vibrancy",
+        "canonical": "rgb(28 28 30 / 0.72)",
+        "tonalRamp": [
+          "oklch(0.15 0.004 286)",
+          "oklch(0.26 0.004 286)",
+          "oklch(0.37 0.004 286)",
+          "oklch(0.48 0.004 286)",
+          "oklch(0.6 0.004 286)",
+          "oklch(0.72 0.004 286)",
+          "oklch(0.84 0.004 286)",
+          "oklch(0.95 0.001 286)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "large-title": {
+        "displayName": "Large title",
+        "purpose": "One per page in PageHeader and on login; 28px on phones, 32px from 768px."
+      },
+      "headline": {
+        "displayName": "Section headline",
+        "purpose": "Section heads within a page (Analytics sections, Feedback reviews)."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Figure-strip values; face-shape percentages step down to 18px/600."
+      },
+      "title": {
+        "displayName": "Group title",
+        "purpose": "Card titles over a 14px gray description; 14px in the small size."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Table cells, nav labels, buttons (at 500), descriptions."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Table heads, hints, timestamps, badges, chart ticks. Sentence case."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Style ids and literal strings only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "floating-menu",
+        "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1), 0 0 0 1px color-mix(in oklch, var(--foreground) 10%, transparent)",
+        "purpose": "Select popups and chart tooltips."
+      },
+      {
+        "name": "dropdown",
+        "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1), 0 0 0 1px color-mix(in oklch, var(--foreground) 10%, transparent)",
+        "purpose": "Dropdown menus."
+      },
+      {
+        "name": "dialog-ring",
+        "value": "0 0 0 1px color-mix(in oklch, var(--foreground) 10%, transparent)",
+        "purpose": "Dialogs over the dimmed overlay; no drop shadow."
+      },
+      {
+        "name": "mobile-sheet",
+        "value": "0 16px 32px -16px rgb(0 0 0 / 0.2)",
+        "purpose": "The drop-down nav sheet under the phone top bar."
+      },
+      {
+        "name": "switch-knob",
+        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "purpose": "The white switch knob only."
+      },
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent)",
+        "purpose": "Focus on buttons, inputs, selects, switches, badges."
+      },
+      {
+        "name": "sidebar-vibrancy",
+        "value": "backdrop-filter: blur(40px) saturate(1.5)",
+        "purpose": "Sidebar material over the 72% translucent fill; the phone top bar uses blur(24px) saturate(1.5) over 80% ground."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "Default for state changes and enter animations: instant response, soft landing."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.77, 0, 0.175, 1)",
+        "purpose": "On-screen movement between two positions."
+      },
+      {
+        "name": "state",
+        "value": "150ms",
+        "purpose": "Hover, colour and press transitions; button press scales to 0.97."
+      },
+      {
+        "name": "overlay",
+        "value": "200ms in / 150ms out",
+        "purpose": "Dialogs, popups and the mobile sheet: fade plus zoom-95 or 8px slide."
+      },
+      {
+        "name": "login-enter",
+        "value": "300ms",
+        "purpose": "Login panel fades in from 0.98 scale."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Keeps fades, drops translate and scale (including button press)."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one filled systemIndigo action per view (New style, Sign in, Save).",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg>New style</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px 0 8px; border: 1px solid transparent; border-radius: 10px; font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; font-size: 14px; font-weight: 500; letter-spacing: -0.006em; cursor: pointer; transition: background-color 150ms cubic-bezier(0.23,1,0.32,1), scale 150ms cubic-bezier(0.23,1,0.32,1); background: var(--primary); color: var(--primary-foreground); } .ds-btn-primary:hover { background: color-mix(in oklch, var(--primary) 80%, transparent); } .ds-btn-primary:focus-visible { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); } .ds-btn-primary:active { scale: 0.97; }"
+    },
+    {
+      "name": "Gray Button",
+      "kind": "button",
+      "refersTo": "button-gray",
+      "description": "Apple's gray button (the outline variant): tinted fill, no stroke. Standard secondary action.",
+      "html": "<button class=\"ds-btn-gray\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\"/><path d=\"M21 3v5h-5\"/><path d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\"/><path d=\"M8 16H3v5\"/></svg>Recalculate stats</button>",
+      "css": ".ds-btn-gray { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px 0 8px; border: 1px solid transparent; border-radius: 10px; font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; font-size: 14px; font-weight: 500; letter-spacing: -0.006em; cursor: pointer; transition: background-color 150ms cubic-bezier(0.23,1,0.32,1), scale 150ms cubic-bezier(0.23,1,0.32,1); background: var(--secondary); color: var(--foreground); } .ds-btn-gray:hover { background: color-mix(in srgb, var(--secondary), var(--foreground) 6%); } .ds-btn-gray:focus-visible { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); } .ds-btn-gray:active { scale: 0.97; }"
+    },
+    {
+      "name": "Destructive Button",
+      "kind": "button",
+      "refersTo": "button-destructive",
+      "description": "Red tint with red text, never a solid fill.",
+      "html": "<button class=\"ds-btn-destructive\">Delete style</button>",
+      "css": ".ds-btn-destructive { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px 0 8px; border: 1px solid transparent; border-radius: 10px; font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; font-size: 14px; font-weight: 500; letter-spacing: -0.006em; cursor: pointer; transition: background-color 150ms cubic-bezier(0.23,1,0.32,1), scale 150ms cubic-bezier(0.23,1,0.32,1); padding: 0 10px; background: color-mix(in srgb, var(--destructive) 10%, transparent); color: var(--destructive); } .ds-btn-destructive:hover { background: color-mix(in srgb, var(--destructive) 20%, transparent); } .ds-btn-destructive:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent); } .ds-btn-destructive:active { scale: 0.97; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "32px white field with a hairline stroke for search and forms.",
+      "html": "<input class=\"ds-input\" placeholder=\"Search name or id\" />",
+      "css": ".ds-input { height: 32px; width: 240px; padding: 4px 10px; border: 1px solid var(--input); border-radius: 10px; background: var(--card); color: var(--foreground); font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; font-size: 14px; transition: border-color 150ms, box-shadow 150ms; } .ds-input::placeholder { color: var(--muted-foreground); } .ds-input:focus-visible { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); }"
+    },
+    {
+      "name": "Vibrancy Sidebar",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "Translucent sidebar with indigo icons at rest and a filled systemIndigo selection with white text.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item ds-active\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"7\" height=\"9\" x=\"3\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"5\" x=\"14\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"9\" x=\"14\" y=\"12\" rx=\"1\"/><rect width=\"7\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\"/></svg>Overview</a><a class=\"ds-nav-item\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"6\" cy=\"6\" r=\"3\"/><path d=\"M8.12 8.12 12 12\"/><path d=\"M20 4 8.12 15.88\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/><path d=\"M14.8 14.8 20 20\"/></svg>Catalogue</a><a class=\"ds-nav-item\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/></svg>Users</a></nav>",
+      "css": ".ds-nav { display: flex; flex-direction: column; gap: 2px; width: 216px; padding: 20px 12px; background: var(--sidebar); backdrop-filter: blur(40px) saturate(1.5); border-right: 1px solid var(--sidebar-border); } .ds-nav-item { display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 10px; border-radius: 8px; color: var(--sidebar-foreground); font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; font-size: 14px; letter-spacing: -0.006em; text-decoration: none; transition: background-color 150ms; } .ds-nav-item svg { color: var(--sidebar-primary); } .ds-nav-item:hover { background: color-mix(in oklch, var(--foreground) 6%, transparent); } .ds-nav-item:focus-visible { outline: 2px solid var(--sidebar-ring); } .ds-nav-item.ds-active, .ds-nav-item.ds-active:hover { background: var(--sidebar-accent); color: var(--sidebar-accent-foreground); font-weight: 500; } .ds-nav-item.ds-active svg { color: var(--sidebar-accent-foreground); }"
+    },
+    {
+      "name": "Capsule Badges",
+      "kind": "chip",
+      "refersTo": "badge-attention",
+      "description": "20px capsules: gray for neutral states, orange tint for Hidden and Disabled.",
+      "html": "<span class=\"ds-badge ds-badge-gray\">Bundled</span> <span class=\"ds-badge ds-badge-attention\">Hidden</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; height: 20px; padding: 2px 8px; border-radius: 9999px; font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; font-size: 12px; font-weight: 500; white-space: nowrap; } .ds-badge-gray { background: var(--secondary); color: var(--secondary-foreground); } .ds-badge-attention { background: var(--highlight-soft); color: var(--highlight-ink); }"
+    },
+    {
+      "name": "Switch",
+      "kind": "custom",
+      "refersTo": "switch-on",
+      "description": "systemGreen capsule when on, gray when off, white knob.",
+      "html": "<span class=\"ds-switch ds-on\"><i></i></span> <span class=\"ds-switch\"><i></i></span>",
+      "css": ".ds-switch { display: inline-flex; align-items: center; width: 32px; height: 18.4px; padding: 0 1px; border-radius: 9999px; background: var(--input); transition: background-color 150ms; } .ds-switch.ds-on { background: var(--success); } .ds-switch i { width: 16px; height: 16px; border-radius: 9999px; background: #fff; box-shadow: 0 1px 3px rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); transition: transform 150ms cubic-bezier(0.23,1,0.32,1); } .ds-switch.ds-on i { transform: translateX(14px); }"
+    },
+    {
+      "name": "Today Chip",
+      "kind": "chip",
+      "refersTo": "today-chip",
+      "description": "Overview-only capsule with the orange now-dot, date and live PHT time.",
+      "html": "<time class=\"ds-today\"><span class=\"ds-today-dot\"></span><span class=\"ds-today-date\">Wed, Oct 28</span>8:42 PM PHT</time>",
+      "css": ".ds-today { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px 0 10px; border: 1px solid var(--border); border-radius: 9999px; background: var(--card); color: var(--muted-foreground); font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; font-size: 14px; } .ds-today-dot { width: 6px; height: 6px; border-radius: 9999px; background: var(--highlight); } .ds-today-date { color: var(--foreground); font-weight: 500; }"
+    },
+    {
+      "name": "Inset Group",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Borderless white 14px group on the grouped gray ground; 15px/600 title over a gray description.",
+      "html": "<div class=\"ds-ground\"><div class=\"ds-card\"><div class=\"ds-card-title\">Latest feedback</div><div class=\"ds-card-desc\">6 reviews in total</div><p class=\"ds-card-body\">Love the curtains try-on, looked exactly like me!</p></div></div>",
+      "css": ".ds-ground { padding: 24px; background: var(--background); } .ds-card { width: 320px; padding: 16px; border-radius: 14px; background: var(--card); color: var(--card-foreground); font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; font-size: 14px; letter-spacing: -0.006em; } .ds-card-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.375; } .ds-card-desc { margin-top: 4px; color: var(--muted-foreground); } .ds-card-body { margin: 16px 0 0; }"
+    },
+    {
+      "name": "Figure Strip",
+      "kind": "custom",
+      "refersTo": "stat-cell",
+      "description": "One borderless 14px group split by separator gaps into white cells: gray label, 24px/600 figure, gray hint.",
+      "html": "<div class=\"ds-strip\"><div class=\"ds-stat\"><div class=\"ds-stat-label\">Users</div><div class=\"ds-stat-value\">6</div><div class=\"ds-stat-hint\">+0 in the last 7 days</div></div><div class=\"ds-stat\"><div class=\"ds-stat-label\">Consultations</div><div class=\"ds-stat-value\">33</div><div class=\"ds-stat-hint\">All time</div></div><div class=\"ds-stat\"><div class=\"ds-stat-label\">Satisfaction</div><div class=\"ds-stat-value\">4.0 / 5</div><div class=\"ds-stat-hint\">6 reviews</div></div></div>",
+      "css": ".ds-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; overflow: hidden; width: 560px; border-radius: 14px; background: var(--border); font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; } .ds-stat { padding: 16px 20px; background: var(--card); } .ds-stat-label { font-size: 14px; color: var(--muted-foreground); } .ds-stat-value { margin-top: 6px; font-size: 24px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.25; font-variant-numeric: tabular-nums; color: var(--foreground); } .ds-stat-hint { margin-top: 6px; font-size: 12px; color: var(--muted-foreground); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Settings, for a Salon",
+    "overview": "The admin reads like a first-party Apple app: macOS Settings, Music, App Store Connect. A grouped gray ground holds borderless white inset groups; a translucent vibrancy sidebar sits beside them with a filled indigo selection and white text. Every colour is an Apple system colour, in hex, with its own dark-mode counterpart. systemIndigo is the accent, systemOrange the one highlight, systemGreen the \"on\" state, and five more system hues name the face shapes.\n\nHierarchy comes from Apple's type rhythm, not from lines: a bold large title at -0.022em on every page, semibold 15px group titles, 14px body with a hair of negative tracking, and gray secondary labels. The font stack asks for SF Pro through -apple-system and falls back to Inter where the system face is missing. Density is comfortable: 24px between groups, 16px inside them.\n\nThe system replaces the earlier \"accent ladder\" world (Archivo, OKLCH indigo tints, hairline-bordered cards, a tinted active nav row). None of those devices carry over. The outlined-card SaaS kit is rejected: groups have no border, secondary buttons are gray fills, not outlines.",
+    "keyCharacteristics": [
+      "Grouped gray ground, borderless white groups, depth by tone alone.",
+      "Translucent sidebar (blur plus saturate) with a filled indigo selection.",
+      "systemIndigo accent, systemOrange as the single highlight, systemGreen for \"on\".",
+      "Capsule badges and chips, gray-fill secondary buttons, white-knob switches.",
+      "Bold large titles; SF Pro first, Inter as stand-in; sentence case throughout.",
+      "Light and dark are both first-class, each with Apple's own dark system values."
+    ],
+    "rules": [
+      {
+        "name": "The System Colour Rule",
+        "body": "Every colour is an Apple system colour with its Apple dark-mode value. No custom hue enters the palette.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Highlight Rule",
+        "body": "Orange means \"today\" or \"needs attention\". It never decorates, never fills a button, and never stands in for a face shape.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fixed Hue Rule",
+        "body": "Each face shape has one system hue, used identically in tags, the split bar, charts and filters, in both themes.",
+        "section": "colors"
+      },
+      {
+        "name": "The Large Title Rule",
+        "body": "Every page opens with one bold large title at -0.022em. Nothing else on the page is bold 700.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence Case Rule",
+        "body": "Every title, label, column head, button and badge is sentence case. No all-caps labels, no letter-spaced kickers.",
+        "section": "typography"
+      },
+      {
+        "name": "The Borderless Group Rule",
+        "body": "Cards, figure strips and tables have no border and no shadow. The white-on-gray step is the whole depth model; separators live only between rows and cells inside a group.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Vibrancy Rule",
+        "body": "Persistent chrome (sidebar, phone top bar) is translucent material with blur and saturation, never an opaque panel and never a dark slab in light mode.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set groups white (dark-group in dark), 14px radius, no border and no shadow, on the grouped gray ground.",
+      "Do use Apple system colours with their dark values, from the tokens in `globals.css`.",
+      "Do fill the selected sidebar row with systemIndigo and white text and icon.",
+      "Do keep the sidebar and phone top bar translucent with blur and saturation.",
+      "Do reserve orange for today and attention: today's bar, the date dot, stars, attention badges.",
+      "Do use gray-fill buttons for secondary actions and capsules for badges and chips.",
+      "Do open every page with one bold large title at -0.022em and a gray subline.",
+      "Do give every chart a table view and a description that names its window.",
+      "Do keep the date chip on Overview only."
+    ],
+    "donts": [
+      "Don't add borders or outlines to cards, figure strips or tables, or outline-stroke secondary buttons.",
+      "Don't introduce a non-system hue or a second accent family.",
+      "Don't use orange for decoration, buttons or a face shape.",
+      "Don't put icons in coloured circles on figure cells.",
+      "Don't make the sidebar opaque or dark in light mode.",
+      "Don't use all-caps, letter-spaced kickers or condensed caps.",
+      "Don't fill destructive buttons solid red; use the red tint."
+    ]
+  }
+}

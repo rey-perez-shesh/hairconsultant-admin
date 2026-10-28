@@ -10,7 +10,7 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { PageHeader } from "@/components/admin-shell";
-import { ConfirmDialog } from "@/components/common";
+import { ConfirmDialog, FaceShapeTag } from "@/components/common";
 import { OptionSelect } from "@/components/filter-select";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -317,7 +317,7 @@ export function HaircutEditor() {
                               )
                             }
                           />
-                          {label(shape)}
+                          <FaceShapeTag shape={shape} label={label(shape)} />
                         </label>
                       ))}
                     </div>
@@ -408,9 +408,9 @@ export function HaircutEditor() {
             <CardContent className="space-y-3">
               {thumbnailPreview ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={thumbnailPreview} alt="" className="aspect-square w-full rounded-lg bg-muted object-contain" />
+                <img src={thumbnailPreview} alt="" className="mx-auto aspect-square w-full max-w-72 rounded-lg bg-muted object-contain" />
               ) : (
-                <div className="flex aspect-square w-full flex-col items-center justify-center gap-2 rounded-lg bg-muted text-sm text-muted-foreground">
+                <div className="mx-auto flex aspect-square w-full max-w-72 flex-col items-center justify-center gap-2 rounded-lg bg-muted text-sm text-muted-foreground">
                   <ImageOff className="size-6" />
                   {existing?.imageUrl?.includes("/drawable/") ? "Bundled in the app only" : "No thumbnail"}
                 </div>

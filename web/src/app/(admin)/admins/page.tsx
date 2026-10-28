@@ -94,7 +94,7 @@ export default function AdminsPage() {
               <Input
                 type="email"
                 required
-                placeholder="email@example.com"
+                placeholder="Email of the account to promote"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 aria-label="Email to make admin"

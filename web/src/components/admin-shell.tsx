@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/components/auth-provider";
 import { Button } from "@/components/ui/button";
@@ -43,7 +43,11 @@ function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const dark = resolvedTheme === "dark";
   return (
-    <Button variant="ghost" size="icon" aria-label="Toggle dark mode" onClick={() => setTheme(dark ? "light" : "dark")}>
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+      onClick={() => setTheme(dark ? "light" : "dark")}>
       {dark ? <Sun /> : <Moon />}
     </Button>
   );
@@ -126,66 +130,111 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   if (!isAdmin) return <NoAccess />;
 
   const nav = (
-    <nav className="flex flex-col gap-1">
-      {NAV.map(({ href, label, icon: Icon }) => (
-        <Link
-          key={href}
-          href={href}
-          onClick={() => setMenuOpen(false)}
-          className={cn(
-            "flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium text-sidebar-foreground/75 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            isActive(pathname, href) && "bg-sidebar-accent text-sidebar-accent-foreground",
-          )}
-        >
-          <Icon className="size-4" />
-          {label}
-        </Link>
-      ))}
+    <nav className="flex flex-col gap-0.5 px-3">
+      {NAV.map(({ href, label, icon: Icon }) => {
+        const active = isActive(pathname, href);
+        return (
+          <Link
+            key={href}
+            href={href}
+            aria-current={active ? "page" : undefined}
+            onClick={() => setMenuOpen(false)}
+            className={cn(
+              "flex h-8 items-center gap-2.5 rounded-md px-2.5 text-sm text-sidebar-foreground transition-colors duration-150 hover:bg-foreground/6 focus-visible:outline-2 focus-visible:outline-sidebar-ring",
+              active && "bg-sidebar-accent font-medium text-sidebar-accent-foreground hover:bg-sidebar-accent",
+            )}
+          >
+            <Icon className={cn("size-4 text-sidebar-primary", active && "text-sidebar-accent-foreground")} strokeWidth={1.75} />
+            {label}
+          </Link>
+        );
+      })}
     </nav>
   );
 
   const footer = (
-    <div className="space-y-2 border-t border-sidebar-border pt-3">
-      <p className="truncate px-3 text-xs text-muted-foreground" title={user.email ?? ""}>
-        {user.email}
-      </p>
-      <div className="flex items-center justify-between px-1">
-        <Button variant="ghost" size="sm" onClick={() => signOut(auth)}>
-          <LogOut /> Sign out
-        </Button>
-        <ThemeToggle />
+    <div className="mx-3 flex items-center gap-2 rounded-lg bg-foreground/5 p-2 pl-3">
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium" title={user.email ?? ""}>
+          {user.email}
+        </p>
+        <p className="text-xs text-muted-foreground">Admin</p>
       </div>
+      <ThemeToggle />
+      <Button variant="ghost" size="icon" aria-label="Sign out" title="Sign out" onClick={() => signOut(auth)}>
+        <LogOut />
+      </Button>
     </div>
   );
 
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-[240px_1fr]">
-      <aside className="sticky top-0 hidden h-screen flex-col gap-6 border-r border-sidebar-border bg-sidebar p-4 lg:flex">
-        <Link href="/" className="flex items-center gap-2 px-3 pt-1 font-semibold">
-          <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Scissors className="size-4" />
-          </span>
-          HairConsultant
-        </Link>
+      <aside className="sticky top-0 hidden h-screen flex-col gap-6 border-r border-sidebar-border bg-sidebar py-5 backdrop-blur-2xl backdrop-saturate-150 lg:flex">
+        <Brand />
         <div className="flex-1">{nav}</div>
         {footer}
       </aside>
 
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b bg-background/90 px-4 py-2 backdrop-blur lg:hidden">
-        <span className="font-semibold">HairConsultant Admin</span>
-        <Button variant="ghost" size="icon" aria-label="Open menu" onClick={() => setMenuOpen((open) => !open)}>
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background/80 pr-2 backdrop-blur-xl backdrop-saturate-150 lg:hidden">
+        <Brand />
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
           {menuOpen ? <X /> : <Menu />}
         </Button>
       </header>
       {menuOpen && (
-        <div className="fixed inset-x-0 top-12 z-20 space-y-4 border-b bg-sidebar p-4 lg:hidden">
+        <div className="fixed inset-x-0 top-14 z-20 space-y-4 border-b bg-background py-3 shadow-[0_16px_32px_-16px_rgb(0_0_0/0.2)] animate-in fade-in-0 slide-in-from-top-2 duration-200 ease-out lg:hidden">
           {nav}
           {footer}
         </div>
       )}
 
-      <main className="min-w-0 px-4 py-6 lg:px-8">{children}</main>
+      <main className="min-w-0 px-4 py-6 md:px-8 md:py-8 xl:px-10">{children}</main>
     </div>
+  );
+}
+
+function Brand() {
+  return (
+    <Link href="/" className="flex items-center gap-2.5 px-5 focus-visible:outline-2 focus-visible:outline-sidebar-ring">
+      <span className="flex size-7 items-center justify-center rounded-[7px] bg-primary text-primary-foreground" aria-hidden>
+        <Scissors className="size-3.5" />
+      </span>
+      <span className="leading-tight">
+        <span className="block text-sm font-semibold">HairConsultant</span>
+        <span className="block text-xs text-muted-foreground">Admin</span>
+      </span>
+    </Link>
+  );
+}
+
+function subscribeClock(onTick: () => void) {
+  const timer = setInterval(onTick, 30_000);
+  return () => clearInterval(timer);
+}
+
+/** Today's date and the live time in Philippine time, as a chip for the Overview header. */
+export function TodayChip() {
+  // Snapshot is the current 30-second bucket, so it stays stable between ticks; null on the server.
+  const bucket = useSyncExternalStore(subscribeClock, () => Math.floor(Date.now() / 30_000), () => null);
+  if (bucket === null) return null;
+  const now = new Date(bucket * 30_000);
+  const part = (options: Intl.DateTimeFormatOptions) =>
+    new Intl.DateTimeFormat("en-PH", { timeZone: "Asia/Manila", ...options }).format(now);
+  return (
+    <time
+      dateTime={now.toISOString()}
+      className="inline-flex h-8 items-center gap-2 rounded-full border bg-card pr-3 pl-2.5 text-sm text-muted-foreground"
+    >
+      <span className="size-1.5 rounded-full bg-highlight" aria-hidden />
+      <span className="font-medium text-foreground">{part({ weekday: "short", day: "numeric", month: "short" })}</span>
+      {part({ hour: "numeric", minute: "2-digit" })} PHT
+    </time>
   );
 }
 
@@ -199,12 +248,12 @@ export function PageHeader({
   actions?: React.ReactNode;
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+    <div className="mb-7 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+      <div className="min-w-0">
+        <h1 className="text-[1.75rem] leading-tight font-bold tracking-[-0.022em] text-balance md:text-[2rem]">{title}</h1>
         {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
       </div>
-      {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
+      {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </div>
   );
 }

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/admin-shell";
-import { ChartCard, HorizontalBars, StatTile, TimeSeries } from "@/components/charts";
+import { ChartCard, FIGURE_STRIP, HorizontalBars, StatTile, TimeSeries } from "@/components/charts";
 import { Stars } from "@/components/common";
 import { OptionSelect } from "@/components/filter-select";
 import { Button } from "@/components/ui/button";
@@ -71,7 +71,7 @@ export default function FeedbackPage() {
   const total = stats?.feedback?.total ?? 0;
   const average = total > 0 ? (stats?.feedback?.ratingSum ?? 0) / total : null;
   const byRating = stats?.feedback?.byRating ?? {};
-  const distribution = ["5", "4", "3", "2", "1"].map((r) => ({ label: `${r} ★`, value: byRating[r] ?? 0 }));
+  const distribution = ["5", "4", "3", "2", "1"].map((r) => ({ label: r === "1" ? "1 star" : `${r} stars`, value: byRating[r] ?? 0 }));
   const positive = total > 0 ? ((byRating["4"] ?? 0) + (byRating["5"] ?? 0)) / total : null;
   // Daily average only where there were reviews that day (no fake zeros).
   const trend = daily
@@ -90,7 +90,7 @@ export default function FeedbackPage() {
         }
       />
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+      <div className={`${FIGURE_STRIP} grid-cols-2 sm:grid-cols-3 [&>:first-child]:col-span-2 sm:[&>:first-child]:col-span-1`}>
         <StatTile label="Average rating" value={average === null ? "—" : `${average.toFixed(2)} / 5`} />
         <StatTile label="Reviews" value={formatNumber(total)} />
         <StatTile
@@ -100,7 +100,7 @@ export default function FeedbackPage() {
         />
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+      <div className="mt-6 grid items-start gap-6 lg:grid-cols-2">
         <ChartCard title="Rating distribution" data={distribution} valueLabel="Reviews">
           <HorizontalBars data={distribution} valueLabel="Reviews" />
         </ChartCard>
@@ -112,12 +112,12 @@ export default function FeedbackPage() {
           format={(v) => v.toFixed(2)}
           emptyText="No reviews in the last 30 days."
         >
-          <TimeSeries data={trend} valueLabel="Average rating" format={(v) => v.toFixed(2)} />
+          <TimeSeries data={trend} valueLabel="Average rating" format={(v) => v.toFixed(2)} domain={[0, 5]} />
         </ChartCard>
       </div>
 
       <div className="mt-8 mb-3 flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-lg font-semibold">Reviews</h2>
+        <h2 className="text-xl font-semibold tracking-[-0.015em]">Reviews</h2>
         <OptionSelect ariaLabel="Filter by rating" className="w-40" value={rating} onChange={setRating} options={RATING_FILTERS} />
       </div>
       <Card className="py-0">
