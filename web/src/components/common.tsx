@@ -50,7 +50,7 @@ export function Stars({ rating }: { rating: number }) {
       {[1, 2, 3, 4, 5].map((n) => (
         <Star
           key={n}
-          className={n <= rating ? "size-3.5 fill-amber-400 text-amber-400" : "size-3.5 text-muted-foreground/40"}
+          className={n <= rating ? "size-3.5 fill-highlight text-highlight" : "size-3.5 text-muted-foreground/35"}
         />
       ))}
     </span>
@@ -126,5 +126,23 @@ export function ConfirmDialog({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+  );
+}
+
+/** Fixed ink per face shape, used on every tag, chart and filter so a shape reads the same everywhere. */
+export const FACE_SHAPE_INK: Record<string, string> = {
+  OVAL: "bg-face-oval",
+  ROUND: "bg-face-round",
+  SQUARE: "bg-face-square",
+  HEART: "bg-face-heart",
+  DIAMOND: "bg-face-diamond",
+};
+
+export function FaceShapeTag({ shape, label, className = "text-xs" }: { shape: string; label: string; className?: string }) {
+  return (
+    <span className={`inline-flex items-center gap-1.5 whitespace-nowrap ${className}`}>
+      <span className={`size-2 rounded-[2px] ${FACE_SHAPE_INK[shape] ?? "bg-muted-foreground"}`} aria-hidden />
+      {label}
+    </span>
   );
 }

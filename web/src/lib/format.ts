@@ -4,6 +4,10 @@ const numberFormat = new Intl.NumberFormat("en-PH");
 
 export const formatDate = (millis?: number | null) => (millis ? dateFormat.format(new Date(millis)) : "—");
 export const formatDateTime = (millis?: number | null) => (millis ? dateTimeFormat.format(new Date(millis)) : "—");
+const timeFormat = new Intl.DateTimeFormat("en-PH", { timeZone: "Asia/Manila", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+const dayFormat = new Intl.DateTimeFormat("en-PH", { timeZone: "Asia/Manila", month: "short", day: "numeric" });
+export const formatDay = (millis?: number | null) => (millis ? dayFormat.format(new Date(millis)) : "—");
+export const formatTime = (millis?: number | null) => (millis ? timeFormat.format(new Date(millis)) : "—");
 export const formatNumber = (value?: number | null) => numberFormat.format(value ?? 0);
 export const formatPercent = (value: number | null) => (value === null ? "—" : `${Math.round(value * 100)}%`);
 

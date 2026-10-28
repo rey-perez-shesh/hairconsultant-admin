@@ -1,6 +1,6 @@
 "use client";
 
-import { onIdTokenChanged, type User } from "firebase/auth";
+import { onIdTokenChanged, signInWithEmailAndPassword, type User } from "firebase/auth";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { auth } from "@/lib/firebase";
 
@@ -27,6 +27,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(
     () =>
       onIdTokenChanged(auth, async (next) => {
+        // Local emulators only: sign straight in as the seeded admin (functions/scripts/seed-emulator.mjs), no login page.
+        if (!next && process.env.NEXT_PUBLIC_USE_EMULATORS === "true") {
+          signInWithEmailAndPassword(auth, "admin@demo.test", "password123").catch(() => setLoading(false));
+          return;
+        }
         setUser(next);
         setIsAdmin(next ? (await next.getIdTokenResult()).claims.admin === true : false);
         setLoading(false);

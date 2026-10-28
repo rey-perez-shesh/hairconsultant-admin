@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/admin-shell";
-import { ConfirmDialog, Stars } from "@/components/common";
+import { ConfirmDialog, FaceShapeTag, Stars } from "@/components/common";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -113,7 +113,7 @@ export function UserDetail() {
         <Card className="h-fit">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              Profile {user?.disabled && <Badge variant="destructive">Disabled</Badge>}
+              Profile {user?.disabled && <Badge variant="attention">Disabled</Badge>}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -136,10 +136,11 @@ export function UserDetail() {
               <CardTitle>Consultations</CardTitle>
               <CardDescription>Latest {consultations.length} face scans and photo uploads</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
-              {consultations.length === 0 && <p className="text-sm text-muted-foreground">No consultations yet.</p>}
+            <CardContent className="px-0">
+              {consultations.length === 0 && <p className="px-4 text-sm text-muted-foreground">No consultations yet.</p>}
+              <ol className="border-t">
               {consultations.map((c) => (
-                <div key={c.id} className="flex flex-wrap gap-4 rounded-lg border p-3">
+                <li key={c.id} className="flex flex-wrap gap-4 border-b px-4 py-3 last:border-b-0">
                   {[c.sourceImageUrl, c.resultImageUrl].filter(Boolean).map((src, i) => (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -161,7 +162,7 @@ export function UserDetail() {
                       <span className="text-xs text-muted-foreground">{formatDateTime(c.createdAtEpochMillis)}</span>
                     </div>
                     <p>
-                      {label(c.faceShape)} face · {label(c.hairLength)} · {label(c.hairTexture)}
+                      <FaceShapeTag shape={c.faceShape ?? ""} label={`${label(c.faceShape)} face`} className="text-sm" /> · {label(c.hairLength)} · {label(c.hairTexture)}
                       {c.hairColor && c.hairColor !== "OTHER" ? ` · ${label(c.hairColor)}` : ""}
                     </p>
                     {haircutName(c.selectedHaircutId) && (
@@ -180,8 +181,9 @@ export function UserDetail() {
                       </p>
                     )}
                   </div>
-                </div>
+                </li>
               ))}
+              </ol>
             </CardContent>
           </Card>
 
