@@ -6,12 +6,15 @@ import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 import { connectStorageEmulator, getStorage } from "firebase/storage";
 
-const useEmulators = process.env.NEXT_PUBLIC_USE_EMULATORS === "true";
+// In preview mode the firebase/* imports above are in-memory fakes (see next.config.ts).
+const preview = process.env.NEXT_PUBLIC_PREVIEW_MODE === "true";
+const useEmulators = !preview && process.env.NEXT_PUBLIC_USE_EMULATORS === "true";
 
-if (!useEmulators && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
+if (!preview && !useEmulators && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
   throw new Error(
     "Missing Firebase web config: copy web/.env.example to web/.env.local and fill it in " +
-      "(or set NEXT_PUBLIC_USE_EMULATORS=true to run against the local emulators).",
+      "(or set NEXT_PUBLIC_USE_EMULATORS=true to run against the local emulators, " +
+      "or NEXT_PUBLIC_PREVIEW_MODE=true to preview the UI without Firebase).",
   );
 }
 
