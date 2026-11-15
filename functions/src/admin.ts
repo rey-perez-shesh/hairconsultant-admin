@@ -115,7 +115,7 @@ async function deleteWhere(collection: string, uid: string): Promise<number> {
 
 /**
  * Permanently erases an app user: their sign-in account, profile, consultations, feedback,
- * chat history and uploaded photos (Data Privacy Act right to erasure).
+ * chat history, saved looks and uploaded photos (Data Privacy Act right to erasure).
  */
 export const deleteUserAccount = onCall({ timeoutSeconds: 300 }, async (request) => {
   const callerUid = requireAdmin(request);
@@ -126,6 +126,7 @@ export const deleteUserAccount = onCall({ timeoutSeconds: 300 }, async (request)
     consultations: await deleteWhere("consultations", uid),
     feedback: await deleteWhere("feedback", uid),
     chatMessages: await deleteWhere("chatMessages", uid),
+    savedLooks: await deleteWhere("savedLooks", uid),
   };
   await getStorage().bucket().deleteFiles({ prefix: `users/${uid}/` });
   await db.doc(`users/${uid}`).delete();

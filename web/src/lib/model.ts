@@ -143,6 +143,11 @@ export type Consultation = {
   deviceModel?: string;
 };
 
+/** A generated try-on preview the user kept (the app's Favorites); lives in "savedLooks". */
+export type SavedLook = Pick<Consultation, "id" | "userId" | "resultImageUrl" | "createdAtEpochMillis"> & {
+  haircutId?: string | null;
+};
+
 export type Feedback = {
   id: string;
   userId: string;

@@ -9,6 +9,8 @@ rules_version = '2';
 //  - consultations  scan/upload history + favorites; each doc carries the owning userId.
 //  - feedback       star ratings + reviews; each doc carries the owning userId.
 //  - chatMessages   AI-chatbot history; owner-only (admins see aggregates, never transcripts).
+//  - savedLooks     generated try-on previews a user kept to compare (the app's Favorites);
+//                   each doc carries the owning userId. Admins read, only the owner writes.
 //  - haircuts       the catalog. Everyone signed in reads it; only admins (custom claim
 //                   `admin: true`, granted by the setAdminRole function) write it.
 //  - auditLogs      append-only record of admin actions.
@@ -60,11 +62,19 @@ service cloud.firestore {
       allow read: if ownsExisting() || isAdmin();
       allow create: if createsOwn();
       allow update: if ownsExisting() && keepsOwner();
-      allow delete: if ownsExisting();
+      // Admins moderate reviews from the dashboard: they can remove one, never reword it.
+      allow delete: if ownsExisting() || isAdmin();
     }
 
     match /chatMessages/{messageId} {
       allow read, delete: if ownsExisting();
+      allow create: if createsOwn();
+      allow update: if ownsExisting() && keepsOwner();
+    }
+
+    match /savedLooks/{lookId} {
+      allow read: if ownsExisting() || isAdmin();
+      allow delete: if ownsExisting();
       allow create: if createsOwn();
       allow update: if ownsExisting() && keepsOwner();
     }

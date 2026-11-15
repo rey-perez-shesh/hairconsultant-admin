@@ -1,7 +1,9 @@
 import { readFileSync } from "node:fs";
 import { afterAll, beforeAll, beforeEach, describe, it } from "vitest";
 import { assertFails, assertSucceeds, initializeTestEnvironment } from "@firebase/rules-unit-testing";
-import { deleteDoc, doc, getDoc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where,
+} from "firebase/firestore";
 import { deleteObject, ref, uploadBytes } from "firebase/storage";
 
 let env;
@@ -86,6 +88,30 @@ describe("app users", () => {
   it("can't reassign their consultation to someone else", async () => {
     await assertFails(updateDoc(doc(alice(), "consultations/c1"), { userId: "bob" }));
   });
+
+  it("keep their saved looks to themselves", async () => {
+    const look = { userId: "alice", haircutId: "SHORT_STRAIGHT_1", resultImageUrl: "https://example.com/look.jpg" };
+    await assertSucceeds(setDoc(doc(alice(), "savedLooks/look-1"), look));
+    // The app re-saves with a plain set(), which is an update the second time.
+    await assertSucceeds(setDoc(doc(alice(), "savedLooks/look-1"), look));
+    // How the app restores looks after a reinstall.
+    await assertSucceeds(getDocs(query(collection(alice(), "savedLooks"), where("userId", "==", "alice"))));
+
+    const mallory = env.authenticatedContext("mallory").firestore();
+    await assertFails(getDoc(doc(mallory, "savedLooks/look-1")));
+    await assertFails(getDocs(query(collection(mallory, "savedLooks"), where("userId", "==", "alice"))));
+    await assertFails(setDoc(doc(mallory, "savedLooks/look-2"), look));
+    await assertFails(deleteDoc(doc(mallory, "savedLooks/look-1")));
+    await assertFails(updateDoc(doc(alice(), "savedLooks/look-1"), { userId: "bob" }));
+
+    // Admins see saved looks on the dashboard, but can't change or remove them.
+    await assertSucceeds(getDoc(doc(admin(), "savedLooks/look-1")));
+    await assertSucceeds(getDocs(collection(admin(), "savedLooks")));
+    await assertFails(updateDoc(doc(admin(), "savedLooks/look-1"), { haircutId: "x" }));
+    await assertFails(deleteDoc(doc(admin(), "savedLooks/look-1")));
+
+    await assertSucceeds(deleteDoc(doc(alice(), "savedLooks/look-1")));
+  });
 });
 
 describe("admins", () => {
@@ -103,6 +129,12 @@ describe("admins", () => {
     await assertFails(setDoc(doc(admin(), "haircuts/BAD"), haircut("admin1", { length: "BALD" })));
     await assertFails(setDoc(doc(admin(), "haircuts/BAD"), haircut("admin1", { name: "" })));
     await assertFails(setDoc(doc(admin(), "haircuts/BAD"), haircut("someone-else")));
+  });
+
+  it("delete reviews, but can't reword them", async () => {
+    await assertFails(updateDoc(doc(admin(), "feedback/f1"), { rating: 1 }));
+    await assertFails(deleteDoc(doc(env.authenticatedContext("mallory").firestore(), "feedback/f1")));
+    await assertSucceeds(deleteDoc(doc(admin(), "feedback/f1")));
   });
 
   it("append audit logs as themselves, and can't edit them", async () => {

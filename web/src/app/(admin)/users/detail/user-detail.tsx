@@ -11,11 +11,12 @@ import { ConfirmDialog, FaceShapeTag, Stars } from "@/components/common";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { api, errorMessage } from "@/lib/admin-api";
 import { db } from "@/lib/firebase";
 import { formatDate, formatDateTime, formatPercent } from "@/lib/format";
 import { useHaircuts } from "@/lib/hooks";
-import { label, type Consultation, type Feedback, type UserProfile } from "@/lib/model";
+import { label, type Consultation, type Feedback, type SavedLook, type UserProfile } from "@/lib/model";
 
 function birthday(epochDay?: number) {
   return epochDay ? formatDate(epochDay * 86_400_000) : "—";
@@ -30,20 +31,46 @@ function Field({ name, value }: { name: string; value: React.ReactNode }) {
   );
 }
 
-type UserData = { user: UserProfile | null; consultations: Consultation[]; feedback: Feedback[] };
+/** A thumbnail that opens the full picture in a dialog when clicked. */
+function Photo({ src, title, caption }: { src: string; title: string; caption: string }) {
+  return (
+    <Dialog>
+      <DialogTrigger
+        aria-label={`Enlarge ${title}`}
+        className="block cursor-zoom-in rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt="" className="size-24 rounded-md bg-muted object-cover" loading="lazy" />
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-xl">
+        <DialogTitle>{title}</DialogTitle>
+        <DialogDescription>{caption}</DialogDescription>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={title} className="max-h-[75vh] w-full rounded-md bg-muted object-contain" />
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+type UserData = { user: UserProfile | null; consultations: Consultation[]; feedback: Feedback[]; savedLooks: SavedLook[] };
 
 async function fetchUserData(uid: string): Promise<UserData> {
-  const [userSnap, consultSnap, feedbackSnap] = await Promise.all([
+  const [userSnap, consultSnap, feedbackSnap, looksSnap] = await Promise.all([
     getDoc(doc(db, "users", uid)),
     getDocs(
       query(collection(db, "consultations"), where("userId", "==", uid), orderBy("createdAtEpochMillis", "desc"), limit(50)),
     ),
     getDocs(query(collection(db, "feedback"), where("userId", "==", uid), orderBy("createdAtEpochMillis", "desc"), limit(50))),
+    // shortcut: sorted here to avoid a composite index, add orderBy + limit if users keep hundreds of looks
+    getDocs(query(collection(db, "savedLooks"), where("userId", "==", uid))),
   ]);
   return {
     user: userSnap.exists() ? { ...(userSnap.data() as Omit<UserProfile, "id">), id: uid } : null,
     consultations: consultSnap.docs.map((d) => ({ ...(d.data() as Omit<Consultation, "id">), id: d.id })),
     feedback: feedbackSnap.docs.map((d) => ({ ...(d.data() as Omit<Feedback, "id">), id: d.id })),
+    savedLooks: looksSnap.docs
+      .map((d) => ({ ...(d.data() as Omit<SavedLook, "id">), id: d.id }))
+      .sort((a, b) => (b.createdAtEpochMillis ?? 0) - (a.createdAtEpochMillis ?? 0)),
   };
 }
 
@@ -72,7 +99,7 @@ export function UserDetail() {
   if (!loaded || !loaded.key.startsWith(`${uid}:`)) {
     return <p className="text-sm text-muted-foreground">Loading…</p>;
   }
-  const { user, consultations, feedback } = loaded;
+  const { user, consultations, feedback, savedLooks } = loaded;
 
   const haircutName = (id?: string | null) => (id ? haircuts.find((h) => h.id === id)?.name ?? id : null);
   const displayName = user?.username || user?.email || uid;
@@ -141,16 +168,12 @@ export function UserDetail() {
               <ol className="border-t">
               {consultations.map((c) => (
                 <li key={c.id} className="flex flex-wrap gap-4 border-b px-4 py-3 last:border-b-0">
-                  {[c.sourceImageUrl, c.resultImageUrl].filter(Boolean).map((src, i) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      key={src}
-                      src={src!}
-                      alt={i === 0 ? "Uploaded photo" : "Try-on result"}
-                      className="size-24 rounded-md bg-muted object-cover"
-                      loading="lazy"
-                    />
-                  ))}
+                  {c.sourceImageUrl && (
+                    <Photo src={c.sourceImageUrl} title="Uploaded photo" caption={formatDateTime(c.createdAtEpochMillis)} />
+                  )}
+                  {c.resultImageUrl && (
+                    <Photo src={c.resultImageUrl} title="Try-on result" caption={formatDateTime(c.createdAtEpochMillis)} />
+                  )}
                   <div className="min-w-0 flex-1 space-y-1 text-sm">
                     <div className="flex flex-wrap items-center gap-2">
                       <Badge variant="secondary">{label(c.source)}</Badge>
@@ -184,6 +207,31 @@ export function UserDetail() {
                 </li>
               ))}
               </ol>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Saved looks</CardTitle>
+              <CardDescription>Try-on previews this user kept to compare</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {savedLooks.length === 0 && <p className="text-sm text-muted-foreground">No saved looks yet.</p>}
+              <ul className="flex flex-wrap gap-4">
+                {savedLooks.map((look) => (
+                  <li key={look.id} className="w-24 space-y-1 text-xs">
+                    {look.resultImageUrl && (
+                      <Photo
+                        src={look.resultImageUrl}
+                        title={haircutName(look.haircutId) ?? "Saved look"}
+                        caption={`Saved ${formatDateTime(look.createdAtEpochMillis)}`}
+                      />
+                    )}
+                    <p className="break-words">{haircutName(look.haircutId) ?? "Unknown style"}</p>
+                    <p className="text-muted-foreground">{formatDate(look.createdAtEpochMillis)}</p>
+                  </li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
 
@@ -233,7 +281,7 @@ export function UserDetail() {
         open={dialog === "delete"}
         onOpenChange={(open) => !open && setDialog(null)}
         title={`Permanently delete ${displayName}?`}
-        description="Deletes their sign-in account, profile, consultations, feedback, chat history and uploaded photos. This can't be undone. Use it for account-deletion requests under the Data Privacy Act."
+        description="Deletes their sign-in account, profile, consultations, feedback, chat history, saved looks and uploaded photos. This can't be undone. Use it for account-deletion requests under the Data Privacy Act."
         actionLabel="Delete everything"
         destructive
         confirmText="DELETE"

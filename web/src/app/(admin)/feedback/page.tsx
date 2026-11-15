@@ -1,18 +1,18 @@
 "use client";
 
-import { collection, doc, getDoc, getDocs, limit, orderBy, query, where } from "firebase/firestore";
-import { Download } from "lucide-react";
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, where, writeBatch } from "firebase/firestore";
+import { Download, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/admin-shell";
 import { ChartCard, FIGURE_STRIP, HorizontalBars, StatTile, TimeSeries } from "@/components/charts";
-import { Stars } from "@/components/common";
+import { ConfirmDialog, Stars } from "@/components/common";
 import { OptionSelect } from "@/components/filter-select";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { errorMessage } from "@/lib/admin-api";
+import { auditInBatch, errorMessage } from "@/lib/admin-api";
 import { db } from "@/lib/firebase";
 import { downloadText, formatDateTime, formatNumber, shortDay, toCsv } from "@/lib/format";
 import { useDailyStats, useGlobalStats } from "@/lib/hooks";
@@ -35,7 +35,21 @@ export default function FeedbackPage() {
   const [rating, setRating] = useState("ALL");
   const [emails, setEmails] = useState<Record<string, string>>({});
   const base = useMemo(() => feedbackQuery(rating), [rating]);
-  const { rows, hasMore, loading, loadingMore, loadMore } = usePagedQuery<Feedback>(base, PAGE_SIZE);
+  const { rows, hasMore, loading, loadingMore, loadMore, reload } = usePagedQuery<Feedback>(base, PAGE_SIZE);
+  const [deleting, setDeleting] = useState<Feedback | null>(null);
+
+  const deleteReview = async (f: Feedback) => {
+    try {
+      const batch = writeBatch(db);
+      batch.delete(doc(db, "feedback", f.id));
+      auditInBatch(batch, "feedback.delete", { feedbackId: f.id, uid: f.userId }, { rating: f.rating });
+      await batch.commit();
+      toast.success("Review deleted.");
+      reload();
+    } catch (error) {
+      toast.error(errorMessage(error));
+    }
+  };
 
   // Show reviewers' emails (feedback docs only carry the uid).
   useEffect(() => {
@@ -128,12 +142,15 @@ export default function FeedbackPage() {
               <TableHead>Comment</TableHead>
               <TableHead className="hidden md:table-cell">User</TableHead>
               <TableHead className="hidden sm:table-cell">Date</TableHead>
+              <TableHead className="w-12">
+                <span className="sr-only">Actions</span>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {!loading && rows.length === 0 && (
               <TableRow>
-                <TableCell colSpan={4} className="py-10 text-center text-muted-foreground">
+                <TableCell colSpan={5} className="py-10 text-center text-muted-foreground">
                   No reviews match.
                 </TableCell>
               </TableRow>
@@ -152,6 +169,11 @@ export default function FeedbackPage() {
                   </Link>
                 </TableCell>
                 <TableCell className="hidden sm:table-cell">{formatDateTime(f.createdAtEpochMillis)}</TableCell>
+                <TableCell>
+                  <Button variant="ghost" size="icon-sm" aria-label="Delete review" onClick={() => setDeleting(f)}>
+                    <Trash2 />
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -164,6 +186,24 @@ export default function FeedbackPage() {
           </Button>
         )}
       </div>
+
+      <ConfirmDialog
+        open={deleting !== null}
+        onOpenChange={(open) => !open && setDeleting(null)}
+        title="Delete this review?"
+        description={
+          <>
+            {deleting?.rating}-star review from {deleting ? emails[deleting.userId] || deleting.userId.slice(0, 8) : ""}
+            {deleting?.comment ? <>: &ldquo;{deleting.comment}&rdquo;</> : "."} It&apos;s removed from the ratings and
+            can&apos;t be restored.
+          </>
+        }
+        actionLabel="Delete review"
+        destructive
+        onConfirm={async () => {
+          if (deleting) await deleteReview(deleting);
+        }}
+      />
     </>
   );
 }

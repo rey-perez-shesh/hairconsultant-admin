@@ -34,6 +34,7 @@ const ACTION_LABELS: Record<string, string> = {
   "user.disable": "Disabled user",
   "user.enable": "Enabled user",
   "user.delete": "Deleted user & data",
+  "feedback.delete": "Deleted review",
   "haircut.create": "Created style",
   "haircut.update": "Edited style",
   "haircut.delete": "Deleted style",
