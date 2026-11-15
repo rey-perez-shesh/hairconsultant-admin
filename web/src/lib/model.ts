@@ -51,7 +51,7 @@ export const LABELS: Record<string, string> = {
 };
 
 export const AR_TYPE_LABELS: Record<ArType, string> = {
-  AUTO: "Bundled in app",
+  AUTO: "App default (no upload)",
   DEEPAR: "DeepAR effect",
   GLB: "3D model (GLB)",
   NONE: "No try-on",

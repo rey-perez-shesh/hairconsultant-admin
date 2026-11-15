@@ -7,7 +7,8 @@ import { auth, db, storage } from "./firebase";
 import { DEFAULT_GLB_FIT, type ArType, type Haircut } from "./model";
 
 export const MAX_THUMB_BYTES = 3 * 1024 * 1024;
-export const MAX_AR_BYTES = 40 * 1024 * 1024;
+/** DeepAR Studio hair exports often land between 60–90 MB. */
+export const MAX_AR_BYTES = 100 * 1024 * 1024;
 
 const THUMB_TYPES: Record<string, string> = {
   "image/png": "png",
@@ -35,7 +36,7 @@ export function validateArAsset(file: File, arType: ArType): string | null {
   const name = file.name.toLowerCase();
   if (arType === "DEEPAR" && !name.endsWith(".deepar")) return "DeepAR try-on needs a .deepar effect file.";
   if (arType === "GLB" && !name.endsWith(".glb")) return "3D try-on needs a .glb model file.";
-  if (file.size > MAX_AR_BYTES) return "AR files must be under 40 MB.";
+  if (file.size > MAX_AR_BYTES) return "AR files must be under 100 MB.";
   return null;
 }
 
@@ -91,6 +92,14 @@ export async function saveHaircut(
       arAssetPath: path,
       arAssetKind: draft.arType,
       arAssetVersion: version,
+    });
+  } else if (draft.arType !== "DEEPAR" && draft.arType !== "GLB") {
+    // App DeepAR try-on is dashboard-only; drop leftover uploads when try-on is off / app-default.
+    if (draft.arAssetPath) replacedPaths.push(draft.arAssetPath);
+    Object.assign(next, {
+      arAssetUrl: null,
+      arAssetPath: null,
+      arAssetKind: null,
     });
   }
 

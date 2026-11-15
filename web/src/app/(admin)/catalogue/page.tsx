@@ -44,7 +44,7 @@ function Thumb({ haircut }: { haircut: Haircut }) {
 function ArBadge({ haircut }: { haircut: Haircut }) {
   const type = haircut.arType ?? "AUTO";
   if (type === "NONE") return <Badge variant="outline">No try-on</Badge>;
-  if (type === "AUTO") return <Badge variant="secondary">Bundled</Badge>;
+  if (type === "AUTO") return <Badge variant="secondary">App default</Badge>;
   return (
     <Badge>
       {type === "GLB" ? <Box /> : <Sparkles />}

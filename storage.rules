@@ -28,10 +28,10 @@ service firebase.storage {
         && fileName.matches('thumb-[0-9]+\\.(png|jpg|jpeg|webp)')
         && request.resource.contentType.matches('image/.*')
         && request.resource.size < 3 * 1024 * 1024;
-      // AR assets: DeepAR effects or GLB models up to 40 MB.
+      // AR assets: DeepAR effects or GLB models up to 100 MB (Studio hair exports are often large).
       allow create, update: if isAdmin()
         && fileName.matches('(effect-[0-9]+\\.deepar|model-[0-9]+\\.glb)')
-        && request.resource.size < 40 * 1024 * 1024;
+        && request.resource.size < 100 * 1024 * 1024;
     }
 
     match /{allPaths=**} {
