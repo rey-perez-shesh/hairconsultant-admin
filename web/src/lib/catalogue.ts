@@ -8,7 +8,7 @@ import { DEFAULT_GLB_FIT, type ArType, type Haircut } from "./model";
 
 export const MAX_THUMB_BYTES = 3 * 1024 * 1024;
 /** DeepAR Studio hair exports often land between 60–90 MB. */
-export const MAX_AR_BYTES = 100 * 1024 * 1024;
+export const MAX_AR_BYTES = 150 * 1024 * 1024;
 
 const THUMB_TYPES: Record<string, string> = {
   "image/png": "png",
@@ -36,7 +36,7 @@ export function validateArAsset(file: File, arType: ArType): string | null {
   const name = file.name.toLowerCase();
   if (arType === "DEEPAR" && !name.endsWith(".deepar")) return "DeepAR try-on needs a .deepar effect file.";
   if (arType === "GLB" && !name.endsWith(".glb")) return "3D try-on needs a .glb model file.";
-  if (file.size > MAX_AR_BYTES) return "AR files must be under 100 MB.";
+  if (file.size > MAX_AR_BYTES) return "AR files must be under 150 MB.";
   return null;
 }
 

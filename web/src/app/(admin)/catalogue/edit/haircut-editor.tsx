@@ -81,7 +81,7 @@ const EMPTY: FormValues = {
 const AR_HINTS: Record<FormValues["arType"], string> = {
   AUTO: "No dashboard AR file. The app may still show a bundled GLB or flat overlay for some styles — not DeepAR.",
   DEEPAR:
-    "Upload a .deepar effect from DeepAR Studio (max 100 MB). The app downloads it when someone taps Try on. Required for live DeepAR hair.",
+    "Upload a .deepar effect from DeepAR Studio (max 150 MB). The app downloads it when someone taps Try on. Required for live DeepAR hair.",
   GLB: "Upload a .glb hair model. Use the fit values to line it up on the head, then check it in the app.",
   NONE: "The try-on button is hidden for this style.",
 };
@@ -369,7 +369,7 @@ export function HaircutEditor() {
                       ? `New file: ${arAsset.name} (${fileSize(arAsset.size)}) — uploaded when you save.`
                       : existingAssetMatches
                         ? `Current file: version ${existing!.arAssetVersion}. Choose a file to replace it.`
-                        : "No file uploaded yet. Max 100 MB."}
+                        : "No file uploaded yet. Max 150 MB."}
                   </p>
                   {existingAssetMatches && existing?.arAssetUrl && !arAsset && (
                     <a
